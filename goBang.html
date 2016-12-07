@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #bod{
+            background:lightgreen;
+        }
+        #box{
+            width: 612px;
+            height: 612px;
+            margin: 20px auto;
+            border: 1px solid gray;
+            border-right: none;
+            border-bottom: none;
+            /*display: inline-block;*/
+        }
+        .pox{
+            width: 50px;
+            height: 50px;
+            border-bottom: 1px solid gray;
+            border-right: 1px solid gray;
+            float: left;
+        }
+        .lol1{
+            position: absolute;
+            top: 320px;
+            left: 140px;
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+        .lol2{
+            position: absolute;
+            top: 320px;
+            right: 140px;
+            cursor: pointer;
+        }
+        .span1{
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: black;
+            cursor: pointer;
+        }
+        .span2{
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 1px 1px ;
+        }
+    </style>
+</head>
+<body id="bod">
+<div id="box">
+</div>
+<input type="button" value="请执黑棋" class="lol1" id="lol1"/>
+<input type="button" value="请执白棋" class="lol2" id="lol2"/>
+</body>
+</html>
+<script>
+    var box=document.getElementById('box');
+    for(i=0;i<144;i++){
+        var div=document.createElement('div');
+        div.className='pox';
+        box.appendChild(div);
+    }
+    var lol1=document.getElementById('lol1');
+    var lol2=document.getElementById('lol2');
+    var span1=document.getElementsByTagName('span');
+    var h=2;
+    var z1=-1;
+    var w=-1;
+    var l=-1;
+    var d=-1;
+    var dd=[];
+    var sum=[];
+    var sum1=[];
+    var sum2=[];
+    var strtop=[21,72,123,174,225,276,327,378,429,480,531,582,633];
+    var strleft=[378,429,480,531,582,633,684,735,786,837,888,939,990];
+    for(i=0;i<strtop.length;i++){
+            for(n=0;n<=strleft.length-5;n++){
+                for(z=n;z<5+n;z++){
+                    var qq=strtop[i].toString();
+                    var ww=strleft[z].toString();
+                    var cc=ww+' '+qq;
+                    d++;
+                    dd[d]=cc.split(' ');
+                }
+            }
+        if(i==12){
+            for(i=0;i<strleft.length;i++){
+                for(n=0;n<=strtop.length-5;n++){
+                    for(z=n;z<5+n;z++){
+                        var qq1=strtop[z].toString();
+                         var ww1=strleft[i].toString();
+                        var cc1=ww1+' '+qq1;
+                        d++;
+                        dd[d]=cc1.split(' ');
+
+                    }
+                }
+            }
+
+        }
+            }
+    // 斜着的
+    for(i=0;i<=strtop.length-5;i++){
+        for(n=0;n<=strleft.length-5;n++){
+            for(z=n;z<n+5;z++){
+                var qq2=(strtop[i]+51*(z-n)).toString();
+                var ww2=strleft[z].toString();
+                var cc2=ww2+' '+qq2;
+                d++;
+                dd[d]=cc2.split(' ');
+            }
+        }
+        if(i==8){
+            for(i=0;i<=strtop.length-5;i++){
+                for(n=0;n<=strleft.length-5;n++){
+                    for(z=n;z<5+n;z++){
+                        var qq3=(strtop[i]+51*(4+n-z)).toString();
+                        var ww3=strleft[z].toString();
+                        var cc3=ww3+' '+qq3;
+                        d++;
+                        dd[d]=cc3.split(' ');
+                    }
+                }
+            }
+        }
+    }
+    function qi(cName){
+        var cc=0;
+        var cc1=0
+        var e=event||window.event;
+        span=document.createElement('span');
+        span.className=cName;
+        document.body.appendChild(span);
+        span.style.left= e.clientX+'px';
+        span.style.top= e.clientY+'px';
+        document.onmousemove=function(){
+            var e=event||window.event;
+            span.style.left= e.clientX-span.offsetWidth/2+'px';
+            span.style.top= e.clientY-span.offsetHeight/2+'px';
+        };
+        document.onmousedown=function(){
+            var b=0;
+            var e=event||window.event;
+            if(span.offsetLeft<352||span.offsetLeft>990||span.offsetTop<21||span.offsetTop>633){
+                return false
+            }
+            for(i=0;i<strtop.length;i++) {
+                for (j = 0; j < strleft.length; j++) {
+                    if (Math.abs(e.clientX - strleft[j]) <= 25 && Math.abs(e.clientY - strtop[i]) <= 25) {
+                        span.style.left = strleft[j] - span.offsetWidth / 2 + 'px';
+                        span.style.top = strtop[i] - span.offsetHeight / 2 + 'px';
+                        for (s = 0; s < sum.length; s++) {
+                            if ((sum[s][0] == strleft[j] && sum[s][1] == strtop[i])) {
+                                b = 1;
+                                return false;
+                            }
+                        }
+                        if (b == 0) {
+                            var a = strleft[j].toString();
+                            var b = strtop[i].toString();
+                            var c = a + ' ' + b;
+                            z1++;
+                            sum[z1] = c.split(' ');
+                            if (h == 0) {
+                                w++;
+                                sum1[w] = c.split(' ');
+                            } else {
+                                l++;
+                                sum2[l] = c.split(' ');
+                            }
+//
+                        }
+                        for (f = 0; f < dd.length; f = f + 5) {
+                            var bbq = 0;
+                            for (m = 0; m < sum1.length; m++) {
+                                for (v = f; v < 5 + f; v++) {
+                                    if (sum1[m][0] == dd[v][0] && sum1[m][1] == dd[v][1]) {
+                                        bbq++;
+                                        if (bbq == 5) {
+                                            cc++;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (cc == 1) {
+                            alert('黑棋赢');
+                        }
+                        for (f = 0; f < dd.length; f = f + 5) {
+                            var bbq1 = 0;
+                            for (m = 0; m < sum2.length; m++) {
+                                for (v = f; v < 5 + f; v++) {
+                                    if (sum2[m][0] == dd[v][0] && sum2[m][1] == dd[v][1]) {
+                                        bbq1++;
+                                        if (bbq1 == 5) {
+                                            cc1++
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (cc1 == 1) {
+                            alert('白棋胜！');
+                        }
+                    }
+                }
+            }
+            document.onmousemove=null;
+            document.onmousedown=null
+        }
+    };
+    lol1.onmouseover=function(){
+        if(h==2){
+            h=0;
+            qi('span1');
+        }
+
+    };
+    lol2.onmouseover=function(){
+        if(h==0) {
+            h=2;
+            qi('span2');
+        }
+    };
+</script>

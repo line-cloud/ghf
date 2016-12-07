@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #box{
+            width: 100%;
+            position: relative;
+        }
+        #box li{
+            border: 1px solid black;
+            margin-left: 20px;
+            list-style: none;
+            padding:10px 0;
+            width: 200px;
+            float: left;
+            height: auto;
+        }
+#box li img{
+    width: 100%;
+}
+@keyframes aa {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(720deg)
+    }
+}
+
+    </style>
+</head>
+<body >
+
+<div>
+    <ul id="box">
+        <li><img src="image/P_00.jpg" alt="" /></li>
+        <li><img src="image/P_04.jpg" alt="" /></li>
+        <li><img src="image/P_03.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_01.jpg" alt="" /></li>
+        <li><img src="image/P_02.jpg" alt="" /></li>
+        <li><img src="image/P_07.jpg" alt="" /></li>
+        <li><img src="image/P_08.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_09.jpg" alt="" /></li>
+        <li><img src="image/P_010.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_011.jpg" alt="" /></li>
+        <li><img src="image/P_012.jpg" alt="" /></li>
+        <li><img src="image/P_013.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_09.jpg" alt="" /></li>
+        <li><img src="image/P_010.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_07.jpg" alt="" /></li>
+        <li><img src="image/P_08.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_09.jpg" alt="" /></li>
+        <li><img src="image/P_010.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_011.jpg" alt="" /></li>
+        <li><img src="image/P_012.jpg" alt="" /></li>
+        <li><img src="image/P_013.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_09.jpg" alt="" /></li>
+        <li><img src="image/P_010.jpg" alt="" /></li>
+        <li><img src="image/P_05.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+        <li><img src="image/P_06.jpg" alt="" /></li>
+    </ul>
+</div>
+</body>
+</html>
+<script src="js/move.js"></script>
+<script>
+    window.onload=function(){
+        function total(){
+    var box=document.getElementById('box');
+    var li=box.getElementsByTagName('li');
+    var img=box.getElementsByTagName('img');
+            //获取一行能放几张图片
+    var imgw=Math.floor(document.documentElement.clientWidth/li[0].offsetWidth);
+            //定义一个数组，存放一排li的高度
+    var imga=[];
+            //记录(除了第一排li的)top值和left值，便于后面调用
+        var topp=[];
+        var leftt=[];
+   for(i=0;i<li.length;i++) {
+       if (i < imgw) {      //遍历所有的li,imgw是第一排最多放图片的数量
+           imga.push(li[i].offsetHeight);   //将第一排li的高度记录到数组
+       }else {
+            imghm = Math.min.apply('null', imga);   //操作剩下所有的li,本行获取数组中最小值
+           inde = imga.indexOf(imghm);//获得最小值的下标
+           li[i].style.position = 'absolute';//将li设置为absolute,便于移动
+               li[i].style.top = imghm + 'px';  //将数组中最小值，也就是第一排li中的最小高度赋给第二排第一个的li
+               //inde即第一排高度最小li的下标，由此可获得它的left值，
+               // 也就是第二排排在它下面位置li的left值
+           li[i].style.left = (li[0].offsetWidth + 20) * inde + 'px';//
+           //更新存放li高度的数组，因为最小值因为下面排了图片已改变
+               imga[inde] =  imga[inde]+li[i].offsetHeight;
+           //记录除了第一排的li的所有li的top值和left值，便于后面操作
+               topp[i]=li[i].offsetTop;
+               leftt[i]=li[i].offsetLeft;
+       }
+    }
+            //遍历第二排后面所有的li,改变其位置
+      for(m=imgw;m<li.length;m++){
+          li[m].style.top=2000+'px';
+          li[m].style.left=0+'px';
+          li[m].style.marginLeft=0+'px';
+      }
+            //下面就是计时器了，让它动起来
+        skt=imgw-1;
+        var swe=null;
+            swe=setInterval(function(){
+                star();
+            },1000);
+        function star(){
+            skt++;
+            remove(li[skt],{"left":leftt[skt],"top":topp[skt]});
+            li[skt].style.animation='aa 3s';
+            if(skt>=li.length-1){
+                clearInterval(swe);
+            }
+        }
+            //这个是滚动条动起来的计时器
+        function time(){
+            var zx=0;
+            var scr=null;
+            clearInterval(scr);
+         scr=setInterval(function(){
+      zx+=0.01;
+        document.body.scrollTop+=zx;
+        if(parseInt(li[li.length-1].style.top)<2000){
+            clearInterval(scr);
+        }
+        },50)
+        }
+//        time()
+       }
+        total();
+};
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
